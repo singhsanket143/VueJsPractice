@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Computer Properties in Vue</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button v-on:click="counter++">Increase</button>
+        <button v-on:click="counter--">Decrease</button>
+        <button v-on:click="secondCounter++">Increase 2nd Counter</button>
+        <p>{{counter}} | {{secondCounter}}</p>
+        <p>{{result()}} | {{updating}}</p>
+    </div>
+
+
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            counter: 0,
+            secondCounter: 0
+        },
+        computed: { // This are not rendered everytime but are cached for the purpose of efficiency, can't do async task
+            updating: function () {
+                console.log("Updating")
+                return this.secondCounter > 5 ? 'Greater than 5' : 'Lesser than 5';
+            }
+        },
+        watch: { // Suitable for doing any async task
+            counter: function (value) {
+                var vm = this; // Need to store the this reference because it wont work in the closure
+                setTimeout(function () {
+                    vm.counter = 0;
+                }, 2000)
+            }
+        },
+        methods: { // This is rendered everytime whenever something changes in the dom
+            result: function () {
+                console.log("result")
+                return this.counter > 5 ? 'Greater than 5' : 'Lesser than 5';
+            }
+        }
+    })
+</script>
+
+</html>

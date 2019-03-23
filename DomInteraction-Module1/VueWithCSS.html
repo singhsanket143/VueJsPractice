@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CSS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="vue.js"></script>
+
+    <style>
+        .demo {
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .blue {
+            background-color: royalblue;
+        }
+
+        .green {
+            background-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="demo" @click="attachedRed = !attachedRed" :class="{red: attachedRed}"></div>
+        <div class="demo" :class="divClasses"></div> <!-- Css using objects -->
+        <div class="demo" :class="[color, {red: attachedRed}]"></div>
+        <div class="demo" :style="{backgroundColor: color}"></div>
+        <div class="demo" :style="divStyle"></div>
+        <hr>
+        <input type="text" v-model="color">
+        <input type="text" v-model="width">
+        <button @click="upload = !upload">Upload</button>
+    </div>
+
+
+</body>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            attachedRed: true,
+            color: 'green',
+            width: 100,
+            upload: false
+        },
+        computed: {
+            divClasses: function () {
+                return {
+                    red: this.attachedRed,
+                    blue: !this.attachedRed
+                }
+            },
+            divStyle: function () {
+                return {
+                    backgroundColor: this.color,
+                    width: this.width + 'px'
+                }
+            }
+        },
+        watch: {
+            upload: function (value) {
+                var vm = this;
+                vm.width = 0;
+                setInterval(function () {
+                    if (vm.width < 100)
+                        vm.width += 5;
+                }, 500)
+
+            }
+        }
+    })
+</script>
+
+</html>

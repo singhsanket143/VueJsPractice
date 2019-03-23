@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Introduction to VSCode</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-on:input="changeTitle" />
+    <p>{{ title }}</p>
+    <p>{{ sayHello() }}</p>
+    <a v-bind:href="link">google</a> <!-- This is used to bind to default HTML attributes-->
+    <a :href="link">google</a> <!-- Shortcut for v-bind is :-->
+    <h1 v-once>{{ title }}</h1> <!-- Helps in re-rendering -->
+    <hr>
+    <p v-html="finishedLink"></p> <!-- To render HTML -->
+    <hr>
+    <button v-on:click="increase(2, $event)">Click</button>
+    <button @click="increase(2, $event)">Click2</button> <!-- Shortcut for v-on is @ -->
+    <p>{{counter*2}}</p>
+    <hr>
+    <p v-on:mousemove="updateCoordinates">{{ x }} / {{ y }}
+      <span v-on:mousemove="dead">| Dead Spot 1 |</span>
+      <span>Live Spot</span>
+      <span v-on:mousemove.stop>| Dead Spot 2 |</span> <!-- Here we have used an event modifier-->
+    </p>
+    <hr>
+    <input type="text" v-on:keyup.enter.space="alertMe"> <!-- Keyboard Event-->
+    <hr>
+    <input type="text" v-model="twoWayBinderValue"> <!-- Two way data binding is done using v-model-->
+    <p>{{ twoWayBinderValue }}</p>
+</body>
+
+<script>
+  new Vue({
+    el: "#app",
+    data: { // This property is not reactive
+      title: 'Introduction',
+      link: 'http://www.google.com',
+      finishedLink: '<a href="https://google.com">Google</a>',
+      counter: 0,
+      x: 0,
+      y: 0,
+      twoWayBinderValue: 'Sanket'
+    },
+    methods: {
+      changeTitle: function (event) {
+        this.title = event.target.value;
+      },
+      sayHello: function () {
+        return "Hello!" + this.title; // We can access the keys of data object using this
+      },
+      increase: function (step, event) {
+        // console.log(event);
+        this.counter += step;
+      },
+      updateCoordinates: function (event) {
+        this.x = event.clientX;
+        this.y = event.clientY;
+      },
+      dead: function (event) {
+        event.stopPropagation();
+      },
+      alertMe: function () {
+        alert("Alerted");
+      }
+    }
+  });
+</script>
+
+</html>
