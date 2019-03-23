@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>V-For</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(ingridient, index) in ingridients">{{ ingridient }} ({{index}})</li>
+        </ul>
+        <template v-for="(ingridient, index) in ingridients">
+            <h3>{{ingridient}}</h3>
+            <p>{{index}}</p>
+        </template>
+        <ul>
+            <li v-for="person in persons">
+                <!-- iterating on objects-->
+                <div v-for="(value, key, index) in person">{{key}}: {{value}} ({{index}})</div>
+            </li>
+        </ul>
+        <hr>
+        <span v-for="n in 10">{{n}}</span>
+        <hr>
+        <ul>
+            <li v-for="(ingridient, index) in ingridients" :key="ingridient">{{ ingridient }} ({{index}})</li>
+            <!-- Keeping the context of the ingridient using key property-->
+        </ul>
+        <button @click="ingridients.push('spices')">Add Spices</button>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            ingridients: ['Chicken', 'Spices', 'Water'],
+            persons: [{
+                    name: "Sanket",
+                    age: 21
+                },
+                {
+                    name: "Sarthak",
+                    age: 22
+                }
+            ]
+        }
+    })
+</script>
+
+</html>
